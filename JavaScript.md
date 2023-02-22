@@ -56,3 +56,23 @@ function async1() {
     });
 }
 ```
+
+#### 2、实现一个深拷贝
+```javascript
+function deepClone(obj) {
+    if (typeof obj !== 'object' || obj === null) return obj;
+    const result = obj instanceof Array ? [] : obj instanceof Object ? {} : obj;
+    Object.keys(obj).forEach((key) => {
+        const val = obj[key];
+        if (val instanceof Object || val instanceof Array) {
+            result[key] = obj === val ? result : deepClone(val);
+        } else {
+            result[key] = val;
+        }
+    });
+    return result;
+}
+```
+1、基础类型直接赋值
+2、引用类型进行递归
+3、某个子属性引用了拷贝的对象本身，直接赋值result（极端情况）
