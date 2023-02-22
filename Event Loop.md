@@ -1,6 +1,4 @@
-<!-- # 整理各种JavaScript面试题并按自己的理解进行实现 -->
-
-### 1、打印的结果以及为什么顺序是这样？
+### 打印的结果以及为什么顺序是这样？
 ```javascript
 async function async1() {
     console.log('async1 start');
@@ -30,7 +28,7 @@ new Promise(function (resolve) {
 
 console.log('script end');
 ```
-#### 答案：
+##### 答案：
 ```javascript
 script start
 async1 start
@@ -42,6 +40,7 @@ promise2
 async1 end
 setTimeout
 ```
+##### 解题思路：
 Event Loop（事件循环）可以简单概括为“先微后宏”，本题难点在于使用了**await**，**await**语句执行并返回了一个promise，**async1**函数与以下代码同等
 ```javascript
 function async1() {
@@ -56,23 +55,3 @@ function async1() {
     });
 }
 ```
-
-#### 2、实现一个深拷贝
-```javascript
-function deepClone(obj) {
-    if (typeof obj !== 'object' || obj === null) return obj;
-    const result = obj instanceof Array ? [] : obj instanceof Object ? {} : obj;
-    Object.keys(obj).forEach((key) => {
-        const val = obj[key];
-        if (val instanceof Object || val instanceof Array) {
-            result[key] = obj === val ? result : deepClone(val);
-        } else {
-            result[key] = val;
-        }
-    });
-    return result;
-}
-```
-1、基础类型直接赋值
-2、引用类型进行递归
-3、某个子属性引用了拷贝的对象本身，直接赋值result（极端情况）
